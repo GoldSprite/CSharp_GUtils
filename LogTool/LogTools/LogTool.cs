@@ -1,22 +1,44 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using Newtonsoft.Json;
 using System.Linq;
 
 namespace GoldSprite.GUtils.LogTools {
     public class LogTool {
+        public static bool IsInit = false;
+        public static string filePath = string.Empty;
+        public static LogToolData data;
 
-        public static Dictionary<int, bool> logLevels = new Dictionary<int, bool>()
+
+        private static void Init()
         {
-            {ILogLevel.ERROR, true},
-            {ILogLevel.WARNING, true},
-            {ILogLevel.DEBUG, true},
-            {ILogLevel.INFO, true},
-            {ILogLevel.MSG, true},
-        };
+            var dataPath = System.IO.Directory.GetCurrentDirectory();
+            filePath = Path.Combine(dataPath, "LogToolData.json");
+            try {
+                if (!File.Exists(filePath)) throw new Exception();
+                ReadData(filePath);
+                data.realtimeFilterList.Clear();
+                IsInit = true;
+                LogTool.NLogDebug("default", "已读取配置数据文件.");
+            }
+            catch (Exception) {
+                SaveData(data = new LogToolData());
+                IsInit = true;
+                LogTool.NLogDebug("default", "初始数据文件以创建.");
+            }
+        }
 
-        public static LogToolData data = new LogToolData();
+        public static void ReadData(string filePath)
+        {
+            var readContent = File.ReadAllText(filePath);
+            data = JsonConvert.DeserializeObject<LogToolData>(readContent);
+        }
+        public static void SaveData(LogToolData data)
+        {
+            var writeContent = JsonConvert.SerializeObject(data, Formatting.Indented);
+            File.WriteAllText(filePath, writeContent);
+        }
 
 
         public static void NLogMsg(object msg) => NLogMsg("", msg);
@@ -61,8 +83,12 @@ namespace GoldSprite.GUtils.LogTools {
 
         public static void NLog(int logLevel, string tag, object msg)
         {
+            if (!IsInit) Init();
             if (logLevel != ILogLevel.FORCE)
-                if (!logLevels.ContainsKey(logLevel) || !logLevels[logLevel]) return;
+                if (!data.logLevels.ContainsKey(logLevel) || !data.logLevels[logLevel]) return;
+
+            if (string.IsNullOrEmpty(tag))
+                tag = StackTraceHelper.GetStackAboveClassName(typeof(LogTool));
 
             //过滤Log
             if (!DisplayLog(logLevel, tag)) return;
@@ -71,7 +97,7 @@ namespace GoldSprite.GUtils.LogTools {
                     + DateTime.Now.ToString("[yy/MM/dd-HH:mm:ss:fff]")
                     + ILogLevel.GetLogMsg(logLevel)
                     + "[" + tag + "]"
-                    + "    "  //空位
+                    + " "  //空位
                     + msg
                     ;
             Console.WriteLine(log);
@@ -97,7 +123,9 @@ namespace GoldSprite.GUtils.LogTools {
 
             if (!realExist) {
                 data.realtimeFilterList[tag] = exist ? tagInfo : new LogToolFilterInfo();
+                data.realtimeFilterList[tag].display = result;
                 data.realtimeFilterList[tag].useInfo = result ? LogToolFilterInfo.UseInfo.Used : LogToolFilterInfo.UseInfo.Intercepted;
+                SaveData(data);
             }
             return result;
         }

@@ -5,6 +5,8 @@ VisualStudioVersion = 17.7.34221.43
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogTool", "LogTool\LogTool.csproj", "{D8FEFB25-8E78-46E2-B7AE-6B38C56C5880}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject1", "UnitTestProject1\UnitTestProject1.csproj", "{B1496F37-793C-40FF-92E2-C3221CBDE454}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{D8FEFB25-8E78-46E2-B7AE-6B38C56C5880}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D8FEFB25-8E78-46E2-B7AE-6B38C56C5880}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D8FEFB25-8E78-46E2-B7AE-6B38C56C5880}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1496F37-793C-40FF-92E2-C3221CBDE454}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1496F37-793C-40FF-92E2-C3221CBDE454}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1496F37-793C-40FF-92E2-C3221CBDE454}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1496F37-793C-40FF-92E2-C3221CBDE454}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
