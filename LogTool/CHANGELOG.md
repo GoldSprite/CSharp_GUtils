@@ -1,4 +1,4 @@
-# 版本日志 StackTraceHelper
+# 版本日志 LogTool
 
 ## 2024.3.31--[V0.1.0]
 - 创建项目
