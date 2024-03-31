@@ -14,12 +14,12 @@ namespace GoldSprite.GUtils.LogTools {
 
         private static Dictionary<int, string> msgMap = new Dictionary<int, string>()
         {
-            {MSG,     " [#MSG#] "},
-            {INFO,    "   [#INFO] "},
-            {DEBUG,   " [DEBUG] "},
-            {WARNING, "[#WARN] "},
-            {ERROR,   "  [#ERR#] "},
-            {FORCE,   "[FORCE] "},
+            {MSG,     "[#MSG#]"},
+            {INFO,    "[#INFO]"},
+            {DEBUG,   "[DEBUG]"},
+            {WARNING, "[#WARN]"},
+            {ERROR,   "[#ERR#]"},
+            {FORCE,   "[FORCE]"},
         };
 
         public static string GetLogMsg(int logLevel)
